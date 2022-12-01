@@ -6,9 +6,9 @@ class Player {
     this.positionX = 50-(this.width/2);
     this.positionY = 0;
     this.domElement = null;
-    
+
     this.createDomElement();
-   
+    
     
   }
 
@@ -28,7 +28,8 @@ class Player {
     boardElm.appendChild(this.domElement);
   }
   moveRight() {
-    this.positionX = this.positionX + 5;
+    
+    this.positionX++;
     //update css for the player dom element
     this.domElement.style.left = this.positionX + "vw";
 
@@ -36,7 +37,7 @@ class Player {
   }
   moveLeft() {
     
-    this.positionX -= 5;
+    this.positionX--;
      //update css for the player dom element
      this.domElement.style.left = this.positionX + "vw";
 
