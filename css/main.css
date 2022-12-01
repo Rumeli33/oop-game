@@ -14,3 +14,8 @@ background-color: rgb(182, 47, 169);
     position: absolute;
     background-color: yellow;
 }
+
+.obstacle{
+    position: absolute;
+    background-color: blue;
+}
