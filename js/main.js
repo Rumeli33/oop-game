@@ -1,5 +1,61 @@
 //console.log("js loaded"); for testing
 
+class Game {
+  constructor() {
+    this.player = null;
+    this.obstaclesArr = []; // will hold instances of the obstacles
+  }
+  start() {
+    this.player = new Player(); // player created
+    this.attachEventListeners();
+
+    ////////////////////////// creating several obstacles ///////////////////////////////
+
+    setInterval(() => {
+      const newObstacle = new Obstacle();
+      this.obstaclesArr.push(newObstacle);
+    }, 3000);
+
+    setInterval(() => {
+      this.obstaclesArr.forEach((element) => {
+        //move current obstacle
+        element.moveDown();
+
+        // detect if there is a collision btwn player and current obstacle
+        if (
+          this.player.positionX < element.positionX + element.width &&
+          this.player.positionX + this.player.width > element.positionX &&
+          this.player.positionY < element.positionY + element.height &&
+          this.player.height + this.player.positionY > element.positionY
+        ) {
+          // Collision detected!
+          console.log("collision detected");
+          location.href = "gameover.html";
+        }
+
+        ///check if we need to remove current obstacle
+
+        if (element.positionY <= 0 - element.height) {
+          console.log("obstacle outside");
+
+          element.domElement.remove();
+          this.obstaclesArr.shift(); // remove the obstacle instance from the array as well.
+        }
+      });
+    }, 50);
+  }
+  attachEventListeners() {
+    document.addEventListener("keydown", (event) => {
+      // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
+      if (event.key === "ArrowLeft") {
+        this.player.moveLeft();
+      } else if (event.key === "ArrowRight") {
+        this.player.moveRight();
+      }
+    });
+  }
+}
+
 //////////////////////////////////////////////// Creating the player
 
 class Player {
@@ -84,71 +140,9 @@ class Obstacle {
 
 ///////////////////////////////////////////////////////////////////////////
 
-const player = new Player(); // 1 player created.
-const obstaclesArr = []; // create an array for many instances of the obstacle class
+const game = new Game();
+game.start();
 
-console.log("horizontal position :", player.positionX);
+///////////////////////////////////////////////////////////////////////////
 
-document.addEventListener("keydown", function (event) {
-  const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
-  if (event.key === "ArrowLeft") {
-    player.moveLeft();
-  } else if (event.key === "ArrowRight") {
-    player.moveRight();
-  }
-});
-
-////////////////////////// creating several obstacles ///////////////////////////////
-
-const intervalId2 = setInterval(function () {
-  const newObstacle = new Obstacle();
-  obstaclesArr.push(newObstacle);
-}, 3000);
-
-const intervalId1 = setInterval(function () {
-  obstaclesArr.forEach((element) => {
-    //move current obstacle
-    element.moveDown();
-
-    // detect if there is a collision btwn player and current obstacle
-    if (
-      player.positionX < element.positionX + element.width &&
-      player.positionX + player.width > element.positionX &&
-      player.positionY < element.positionY + element.height &&
-      player.height + player.positionY > element.positionY
-    ) {
-      // Collision detected!
-      console.log("collision detected");
-      location.href = "gameover.html";
-    }
-
-    ///check if we need to remove current obstacle
-
-    if (element.positionY <= 0 - element.height) {
-      console.log("obstacle outside");
-
-      element.domElement.remove();
-      obstaclesArr.shift(); // remove the obstacle instance from the array as well.
-    }
-  });
-}, 50);
-
-///////////////// refactoring set interval to coordinate creating multiple instances and speed.
-let time = 0;
-
-/*setInterval(()=>{
-    time++;
-
-if( time % 30 === 0){
-    const newObstacle =  new Obstacle();
-  obstaclesArr.push(newObstacle);
-}
-else{
-    obstaclesArr.forEach(element =>{
-        element.moveDown();
-    })
-}
-
-}
-,50)
-*/
+/// Attach event listener
