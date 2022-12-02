@@ -109,8 +109,8 @@ const intervalId1 = setInterval(function () {
   obstaclesArr.forEach((element) => {
     //move current obstacle
     element.moveDown();
-    // detect if there is a collision btwn player and current obstacle
 
+    // detect if there is a collision btwn player and current obstacle
     if (
       player.positionX < element.positionX + element.width &&
       player.positionX + player.width > element.positionX &&
@@ -119,9 +119,17 @@ const intervalId1 = setInterval(function () {
     ) {
       // Collision detected!
       console.log("collision detected");
-      location.href ='gameover.html';
-    } 
+      location.href = "gameover.html";
+    }
 
+    ///check if we need to remove current obstacle
+
+    if (element.positionY <= 0 - element.height) {
+      console.log("obstacle outside");
+
+      element.domElement.remove();
+      obstaclesArr.shift(); // remove the obstacle instance from the array as well.
+    }
   });
 }, 50);
 
@@ -144,5 +152,3 @@ else{
 }
 ,50)
 */
-
-
