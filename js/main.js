@@ -119,6 +119,7 @@ const intervalId1 = setInterval(function () {
     ) {
       // Collision detected!
       console.log("collision detected");
+      location.href ='gameover.html';
     } 
 
   });

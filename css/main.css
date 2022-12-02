@@ -3,6 +3,11 @@ body{
     padding: 0;
 }
 
+#second-body{
+    background-color: aqua;
+    font: black;
+    text-align: center;
+}
 #board {
 height: 100vh;
 position: relative;
